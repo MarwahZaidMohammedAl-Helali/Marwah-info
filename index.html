@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!-- 
+    GOOGLE DRIVE SETUP INSTRUCTIONS:
+    
+    1. Open your Google Drive folder: https://drive.google.com/drive/folders/1ldzvU2Px06O30X5NIyPXIX6LwECOrcVl?usp=sharing
+    
+    2. For each file you want to display:
+       - Right-click on the file → Share → Copy link
+       - Extract the file ID from the URL (the long string between /d/ and /view)
+       - Replace 'YOUR_FILE_ID_HERE' in the fileMapping object below with the actual file ID
+    
+    3. For images, use: https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE
+    4. For PDFs, use: https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing
+    
+    5. Make sure all files are set to "Anyone with the link can view"
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,30 +25,30 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background-color: #f8fafc;
             color: #1e293b;
             line-height: 1.6;
         }
-
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0;
         }
-
+        
         /* Header Section */
         .header-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
-            padding: 80px 40px;
+            padding: clamp(40px, 8vw, 80px) clamp(20px, 5vw, 40px);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-
+        
         .header-section::before {
             content: '';
             position: absolute;
@@ -44,42 +59,48 @@
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="grad"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23grad)"/><circle cx="800" cy="800" r="250" fill="url(%23grad)"/></svg>');
             opacity: 0.1;
         }
-
+        
         .profile-photo {
-            width: 140px;
-            height: 140px;
+            width: clamp(100px, 15vw, 140px);
+            height: clamp(100px, 15vw, 140px);
             border-radius: 50%;
             background: linear-gradient(45deg, #3b82f6, #8b5cf6);
             margin: 0 auto 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: 600;
             letter-spacing: 2px;
             position: relative;
             z-index: 1;
             border: 4px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
         }
-
+        
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+        
         .profile-name {
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             font-weight: 700;
             margin-bottom: 15px;
             position: relative;
             z-index: 1;
         }
-
+        
         .profile-details {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             opacity: 0.9;
             margin-bottom: 20px;
             position: relative;
             z-index: 1;
         }
-
+        
         .profile-specialization {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             font-weight: 500;
             background: rgba(255, 255, 255, 0.15);
             padding: 12px 30px;
@@ -89,190 +110,194 @@
             position: relative;
             z-index: 1;
         }
-
+        
         /* Main View - Section Grid */
         .main-view {
             display: block;
             min-height: 80vh;
-            padding: 80px 40px;
+            padding: clamp(40px, 8vw, 80px) clamp(20px, 5vw, 40px);
         }
-
+        
         .main-view.hidden {
             display: none;
         }
-
+        
         .sections-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: clamp(20px, 4vw, 30px);
             max-width: 1000px;
             margin: 0 auto;
         }
-
+        
         .section-card {
             background: white;
             border-radius: 16px;
-            padding: 40px 30px;
+            padding: clamp(25px, 5vw, 40px) clamp(20px, 4vw, 30px);
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid #e2e8f0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-
+        
         .section-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
             border-color: #3b82f6;
         }
-
+        
         .section-icon {
-            width: 100px;
-            height: 100px;
+            width: clamp(70px, 12vw, 100px);
+            height: clamp(70px, 12vw, 100px);
             margin: 0 auto 25px;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: clamp(2rem, 4vw, 3rem);
             color: white;
         }
-
+        
         .section-title {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 15px;
         }
-
+        
         .section-description {
             color: #64748b;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             line-height: 1.6;
         }
-
+        
         .document-count {
             background: #3b82f6;
             color: white;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
             font-weight: 600;
             padding: 6px 12px;
             border-radius: 20px;
             display: inline-block;
             margin-top: 15px;
         }
-
+        
         /* Document View */
         .document-view {
             display: none;
             min-height: 100vh;
             background: #f8fafc;
         }
-
+        
         .document-view.active {
             display: block;
         }
-
+        
         .document-header {
             background: white;
-            padding: 30px 40px;
+            padding: clamp(20px, 4vw, 30px) clamp(20px, 5vw, 40px);
             border-bottom: 1px solid #e2e8f0;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
-
+        
         .back-button {
             background: #3b82f6;
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             margin-bottom: 20px;
+            touch-action: manipulation;
         }
-
+        
         .back-button:hover {
             background: #2563eb;
+            transform: translateX(-2px);
         }
-
+        
         .document-section-title {
-            font-size: 2.2rem;
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 10px;
         }
-
+        
         .document-section-subtitle {
             color: #64748b;
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
         }
-
+        
         .documents-container {
-            padding: 40px;
+            padding: clamp(20px, 5vw, 40px);
             max-width: 1200px;
             margin: 0 auto;
         }
-
+        
         .documents-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: clamp(15px, 3vw, 25px);
         }
-
+        
         .document-item {
             background: white;
             border-radius: 12px;
-            padding: 25px;
+            padding: clamp(20px, 4vw, 25px);
             border: 2px solid #e2e8f0;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            touch-action: manipulation;
         }
-
+        
         .document-item:hover {
             border-color: #3b82f6;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
-
+        
         .document-item-icon {
-            width: 60px;
-            height: 60px;
+            width: clamp(50px, 10vw, 60px);
+            height: clamp(50px, 10vw, 60px);
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
             color: white;
             margin-bottom: 15px;
         }
-
+        
         .document-item-title {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             font-weight: 600;
             color: #0f172a;
             margin-bottom: 8px;
+            line-height: 1.4;
         }
-
+        
         .document-item-type {
             color: #64748b;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
-        /* PDF Viewer Modal */
-        .pdf-modal {
+        
+        /* Enhanced Modal System */
+        .modal-overlay {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -282,9 +307,10 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.95);
             animation: fadeIn 0.3s ease;
+            touch-action: none;
         }
-
-        .pdf-modal-content {
+        
+        .modal-content {
             position: relative;
             margin: 0;
             width: 100%;
@@ -294,136 +320,253 @@
             display: flex;
             flex-direction: column;
         }
-
-        .pdf-modal-header {
+        
+        .modal-header {
             background: #0f172a;
             color: white;
-            padding: 15px 20px;
+            padding: clamp(10px, 3vw, 15px) clamp(15px, 4vw, 20px);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0;
         }
-
-        .pdf-modal-title {
-            font-size: 1.2rem;
+        
+        .modal-title {
+            font-size: clamp(1rem, 3vw, 1.2rem);
             font-weight: 600;
+            margin-right: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-
-        .close-pdf-btn {
+        
+        .modal-controls {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        
+        .modal-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .close-btn {
             background: none;
             border: none;
             color: white;
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
             cursor: pointer;
             padding: 5px 10px;
             border-radius: 4px;
             transition: background-color 0.2s;
+            line-height: 1;
         }
-
-        .close-pdf-btn:hover {
+        
+        .close-btn:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
-
-        .pdf-viewer {
-          
+        
+        /* Enhanced PDF Viewer */
+        .document-viewer {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #f0f0f0;
         }
-
-        .pdf-placeholder {
+        
+        .pdf-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .image-viewer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            overflow: auto;
+        }
+        
+        .image-viewer img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .viewer-placeholder {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: calc(100% - 60px);
+            height: 100%;
             color: #64748b;
             background: #f8fafc;
+            text-align: center;
+            padding: 20px;
         }
-
-        .pdf-placeholder .icon {
-            font-size: 4rem;
+        
+        .viewer-placeholder .icon {
+            font-size: clamp(3rem, 8vw, 4rem);
             margin-bottom: 20px;
             opacity: 0.5;
         }
-
+        
+        .viewer-placeholder h3 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 10px;
+        }
+        
+        .viewer-placeholder p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            line-height: 1.5;
+        }
+        
         .loading-spinner {
-            width: 50px;
-            height: 50px;
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
             border: 4px solid #e2e8f0;
             border-top: 4px solid #3b82f6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
-
+        
+        /* Error State */
+        .error-state {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+            text-align: center;
+        }
+        
+        .error-state .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .modal-header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .modal-title {
+                margin-right: 0;
+                margin-bottom: 5px;
+                flex: 1 0 100%;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .modal-controls {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .modal-btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+        }
+        
+        /* Touch-friendly interactions */
+        @media (pointer: coarse) {
+            .section-card, .document-item {
+                padding: clamp(30px, 6vw, 40px) clamp(25px, 5vw, 30px);
+            }
+            
+            .back-button, .modal-btn, .close-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Animations */
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-section {
-                padding: 60px 30px;
-            }
-
-            .profile-name {
-                font-size: 2.2rem;
-            }
-
-            .main-view, .documents-container {
-                padding: 40px 20px;
-            }
-
-            .sections-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .document-header {
-                padding: 20px;
-            }
-
-            .documents-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .pdf-modal-content {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section-card {
-                padding: 30px 20px;
-            }
-
-            .section-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 2.5rem;
-            }
-
-            .document-item {
-                padding: 20px;
-            }
-        }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
+        
         .fade-in {
             animation: fadeIn 0.6s ease;
+        }
+        
+        /* Zoom controls for mobile */
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .zoom-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        /* High DPI display support */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .pdf-iframe {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Header Section -->
     <section class="header-section">
-        <div class="profile-photo">
+        <div class="profile-photo" onclick="openDocument('Profile Photo', 'profile.jpg', 'image')">
             M
         </div>
         <h1 class="profile-name">Marwah</h1>
@@ -468,6 +611,13 @@
                 <p class="section-description">Community service certificates and volunteer recognition</p>
                 <span class="document-count">2 Documents</span>
             </div>
+            
+            <div class="section-card" onclick="showSection('photos')">
+                <div class="section-icon">📸</div>
+                <h3 class="section-title">Photos</h3>
+                <p class="section-description">Professional photos and project images</p>
+                <span class="document-count">4 Photos</span>
+            </div>
         </div>
     </div>
 
@@ -482,7 +632,7 @@
         </div>
         <div class="documents-container">
             <div class="documents-grid">
-                <div class="document-item" onclick="openPDF('Marwah CV', 'Marwah CV.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('cv', 'Marwah CV')">
                     <div class="document-item-icon">📋</div>
                     <h4 class="document-item-title">Marwah CV</h4>
                     <p class="document-item-type">PDF Document</p>
@@ -502,7 +652,7 @@
         </div>
         <div class="documents-container">
             <div class="documents-grid">
-                <div class="document-item" onclick="openPDF('Award of Degree', 'Award of Degree.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('education', 'Award of Degree')">
                     <div class="document-item-icon">🎓</div>
                     <h4 class="document-item-title">Award of Degree</h4>
                     <p class="document-item-type">PDF Document</p>
@@ -522,31 +672,31 @@
         </div>
         <div class="documents-container">
             <div class="documents-grid">
-                <div class="document-item" onclick="openPDF('JIWE Participation Certificate', 'Participating in JIWE.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('achievements', 'JIWE Participation Certificate')">
                     <div class="document-item-icon">🏅</div>
                     <h4 class="document-item-title">JIWE Participation Certificate</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Elements of AI Certificate', 'Certificate Elements Of AI.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('achievements', 'Elements of AI Certificate')">
                     <div class="document-item-icon">🤖</div>
                     <h4 class="document-item-title">Elements of AI Certificate</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Dean List Certificate 1', 'Dean List Certificate 1.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('achievements', 'Dean List Certificate 1')">
                     <div class="document-item-icon">📜</div>
                     <h4 class="document-item-title">Dean List Certificate 1</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Dean List Certificate 2', 'Dean List Certificate 2.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('achievements', 'Dean List Certificate 2')">
                     <div class="document-item-icon">📜</div>
                     <h4 class="document-item-title">Dean List Certificate 2</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('EDC Innovation Article', 'EDC Unveils Innovative Self-Printing Machine by Azzain Ink - Multimedia University.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('achievements', 'EDC Innovation Article')">
                     <div class="document-item-icon">🚀</div>
                     <h4 class="document-item-title">EDC Innovation Article</h4>
                     <p class="document-item-type">PDF Document</p>
@@ -566,19 +716,19 @@
         </div>
         <div class="documents-container">
             <div class="documents-grid">
-                <div class="document-item" onclick="openPDF('Recommendation Letter 1', 'Recommendation Letter1.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('recommendations', 'Recommendation Letter 1')">
                     <div class="document-item-icon">📝</div>
                     <h4 class="document-item-title">Recommendation Letter 1</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Recommendation Letter 2', 'Recommendation Letter2.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('recommendations', 'Recommendation Letter 2')">
                     <div class="document-item-icon">📝</div>
                     <h4 class="document-item-title">Recommendation Letter 2</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Recommendation Letter 3', 'Recommendation Letter3.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('recommendations', 'Recommendation Letter 3')">
                     <div class="document-item-icon">📝</div>
                     <h4 class="document-item-title">Recommendation Letter 3</h4>
                     <p class="document-item-type">PDF Document</p>
@@ -598,13 +748,13 @@
         </div>
         <div class="documents-container">
             <div class="documents-grid">
-                <div class="document-item" onclick="openPDF('Volunteering Certificate 1', 'Volunteering Certificate 1.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('volunteering', 'Volunteering Certificate 1')">
                     <div class="document-item-icon">🤝</div>
                     <h4 class="document-item-title">Volunteering Certificate 1</h4>
                     <p class="document-item-type">PDF Document</p>
                 </div>
                 
-                <div class="document-item" onclick="openPDF('Volunteering Certificate 2', 'Volunteering Certificate 2.pdf')">
+                <div class="document-item" onclick="openDocumentFromMapping('volunteering', 'Volunteering Certificate 2')">
                     <div class="document-item-icon">🤝</div>
                     <h4 class="document-item-title">Volunteering Certificate 2</h4>
                     <p class="document-item-type">PDF Document</p>
@@ -613,247 +763,575 @@
         </div>
     </div>
 
-    <!-- PDF Viewer Modal -->
-    <div id="pdfModal" class="pdf-modal">
-        <div class="pdf-modal-content">
-            <div class="pdf-modal-header">
-                <h3 class="pdf-modal-title" id="pdfModalTitle">Document Title</h3>
-                <button class="close-pdf-btn" onclick="closePDF()">&times;</button>
+    <!-- Photos Section -->
+    <div class="document-view" id="photosView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Photos</h2>
+            <p class="document-section-subtitle">Professional photos and project images</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openDocumentFromMapping('photos', 'Dean List Certificate 1')">
+                    <div class="document-item-icon">👤</div>
+                    <h4 class="document-item-title">Dean List Certificate 1</h4>
+                    <p class="document-item-type">JPG Image</p>
+                </div>
+                
+                <div class="document-item" onclick="openDocumentFromMapping('photos', 'Dean List Certificate 2')">
+                    <div class="document-item-icon">🖼️</div>
+                    <h4 class="document-item-title">Dean List Certificate 2</h4>
+                    <p class="document-item-type">JPG Image</p>
+                </div>
+                
+                <div class="document-item" onclick="openDocumentFromMapping('photos', 'Volunteering Certificate 1')">
+                    <div class="document-item-icon">🖼️</div>
+                    <h4 class="document-item-title">Volunteering Certificate 1</h4>
+                    <p class="document-item-type">JPG Image</p>
+                </div>
+                
+                <div class="document-item" onclick="openDocumentFromMapping('photos', 'Volunteering Certificate 2')">
+                    <div class="document-item-icon">👥</div>
+                    <h4 class="document-item-title">Volunteering Certificate 2</h4>
+                    <p class="document-item-type">JPG Image</p>
+                </div>
             </div>
-            <div id="pdfContent">
-                <iframe id="pdfViewer" class="pdf-viewer" style="display: none;"></iframe>
-                <div id="pdfPlaceholder" class="pdf-placeholder">
+        </div>
+    </div>
+
+    <!-- Universal Document Modal -->
+    <div id="documentModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Document Title</h3>
+                <div class="modal-controls">
+                    <button class="modal-btn" id="downloadBtn" onclick="downloadDocument()">
+                        📥 Download
+                    </button>
+                    <button class="modal-btn" id="fullscreenBtn" onclick="toggleFullscreen()">
+                        ⛶ Fullscreen
+                    </button>
+                    <button class="close-btn" onclick="closeDocument()">&times;</button>
+                </div>
+            </div>
+            <div class="document-viewer" id="documentViewer">
+                <div id="viewerContent"></div>
+                <div id="viewerPlaceholder" class="viewer-placeholder">
                     <div class="loading-spinner"></div>
-                    <h3>Loading PDF...</h3>
+                    <h3>Loading Document...</h3>
                     <p>Please wait while the document loads</p>
+                </div>
+                <div class="zoom-controls" id="zoomControls" style="display: none;">
+                    <button class="zoom-btn" onclick="zoomIn()">+</button>
+                    <button class="zoom-btn" onclick="zoomOut()">−</button>
+                    <button class="zoom-btn" onclick="resetZoom()">⌂</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        let currentDocument = null;
+        let currentZoom = 1;
+        
+        // File mapping configuration for Google Drive
+        // IMPORTANT: You need to update these URLs with the actual file IDs from your Google Drive folder
+        // To get the file ID: Right-click on a file in Google Drive → Share → Copy link → Extract the ID from the URL
+        const fileMapping = {
+            'cv': {
+                'Marwah CV': 'https://drive.google.com/file/d/1DP-bZGk5MnPD1HiW1t4kLQkJ7vIKtdW9/view?usp=sharing'
+            },
+            
+            'education': {
+                'Award of Degree': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing'
+            },
+            'achievements': {
+                'JIWE Participation Certificate': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Elements of AI Certificate': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Dean List Certificate 1': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Dean List Certificate 2': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'EDC Innovation Article': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing'
+            },
+            'recommendations': {
+                'Recommendation Letter 1': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Recommendation Letter 2': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Recommendation Letter 3': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing'
+            },
+            'volunteering': {
+                'Volunteering Certificate 1': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing',
+                'Volunteering Certificate 2': 'https://drive.google.com/file/d/YOUR_FILE_ID_HERE/view?usp=sharing'
+            },
+            'photos': {
+                'Dean List Certificate 1': 'https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE',
+                'Dean List Certificate 2': 'https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE',
+                'Volunteering Certificate 1': 'https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE',
+                'Volunteering Certificate 2': 'https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE'
+            }
+        };
+        
         // Show specific section
         function showSection(sectionName) {
-            // Hide main view
             document.getElementById('mainView').classList.add('hidden');
             
-            // Hide all document views
             const allViews = document.querySelectorAll('.document-view');
             allViews.forEach(view => view.classList.remove('active'));
             
-            // Show selected section
             document.getElementById(sectionName + 'View').classList.add('active');
-            
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Show main view (back to sections)
         function showMainView() {
-            // Show main view
             document.getElementById('mainView').classList.remove('hidden');
             
-            // Hide all document views
             const allViews = document.querySelectorAll('.document-view');
             allViews.forEach(view => view.classList.remove('active'));
             
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Open PDF in modal - Universal Display Version
-        function openPDF(title, filename) {
-            const modal = document.getElementById('pdfModal');
-            const modalTitle = document.getElementById('pdfModalTitle');
-            const viewer = document.getElementById('pdfViewer');
-            const placeholder = document.getElementById('pdfPlaceholder');
+        // Open document using file mapping
+        function openDocumentFromMapping(section, title) {
+            if (fileMapping[section] && fileMapping[section][title]) {
+                const filename = fileMapping[section][title];
+                const type = section === 'photos' ? 'image' : 'pdf';
+                openDocument(title, filename, type);
+            } else {
+                console.error('File not found in mapping:', section, title);
+                alert('Document not found. Please check the file mapping configuration.');
+            }
+        }
+        
+        // Universal document opener
+        function openDocument(title, filename, type) {
+            const modal = document.getElementById('documentModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
+            const zoomControls = document.getElementById('zoomControls');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            currentDocument = { title, filename, type };
+            currentZoom = 1;
             
             modalTitle.textContent = title;
             modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
             
             // Show loading state
             placeholder.style.display = 'flex';
-            viewer.style.display = 'none';
+            viewerContent.innerHTML = '';
+            zoomControls.style.display = 'none';
             
-            // Try multiple PDF display methods for better compatibility
-            const pdfUrl = filename;
+            // Enable/disable download button
+            downloadBtn.style.display = filename ? 'block' : 'none';
             
-            // Method 1: Try direct iframe embedding
-            viewer.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
-            
-            let loadTimeout;
-            let hasLoaded = false;
-            
-            // Handle successful loading
-            viewer.onload = function() {
-                if (!hasLoaded) {
-                    hasLoaded = true;
-                    clearTimeout(loadTimeout);
-                    setTimeout(() => {
-                        placeholder.style.display = 'none';
-                        viewer.style.display = 'block';
-                    }, 500);
-                }
-            };
-            
-            // Set a timeout to check if PDF loaded
-            loadTimeout = setTimeout(() => {
-                if (!hasLoaded) {
-                    // Method 2: Try with PDF.js viewer
-                    tryPDFJSViewer(filename, title);
-                }
-            }, 3000);
-            
-            // Handle loading errors
-            viewer.onerror = function() {
-                if (!hasLoaded) {
-                    clearTimeout(loadTimeout);
-                    tryPDFJSViewer(filename, title);
-                }
-            };
-            
-            // Prevent context menu
-            viewer.oncontextmenu = function(e) {
-                e.preventDefault();
-                return false;
-            };
-            
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Try using PDF.js viewer for better mobile compatibility
-        function tryPDFJSViewer(filename, title) {
-            const viewer = document.getElementById('pdfViewer');
-            const placeholder = document.getElementById('pdfPlaceholder');
-            
-            // Try using Google Docs Viewer as fallback
-            const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + '/' + filename)}&embedded=true`;
-            
-            // Update placeholder to show we're trying alternative method
-            placeholder.innerHTML = `
-                <div class="loading-spinner"></div>
-                <h3>Loading PDF Viewer...</h3>
-                <p>Optimizing for your device...</p>
-            `;
-            
-            viewer.src = googleDocsUrl;
-            
+            // Load content based on type
             setTimeout(() => {
-                // If Google Docs viewer also fails, show embedded object
-                viewer.onerror = function() {
-                    showEmbeddedPDF(filename, title);
+                if (type === 'pdf') {
+                    loadPDF(filename, title);
+                } else if (type === 'image') {
+                    loadImage(filename, title);
+                }
+            }, 300);
+        }
+
+        // Load PDF with multiple fallback methods
+        function loadPDF(filename, title) {
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
+            
+            // Check if it's a Google Drive URL
+            if (filename.includes('drive.google.com')) {
+                // Convert Google Drive sharing URL to direct PDF viewer URL
+                let directUrl = filename;
+                if (filename.includes('/view?usp=sharing')) {
+                    // Convert to Google Drive PDF viewer
+                    directUrl = filename.replace('/view?usp=sharing', '/preview');
+                }
+                
+                const iframe = document.createElement('iframe');
+                iframe.className = 'pdf-iframe';
+                iframe.src = directUrl;
+                
+                let loadTimeout;
+                let hasLoaded = false;
+                
+                iframe.onload = function() {
+                    if (!hasLoaded) {
+                        hasLoaded = true;
+                        clearTimeout(loadTimeout);
+                        setTimeout(() => {
+                            placeholder.style.display = 'none';
+                            viewerContent.appendChild(iframe);
+                        }, 500);
+                    }
                 };
                 
-                // Hide placeholder after attempting to load
-                setTimeout(() => {
-                    placeholder.style.display = 'none';
-                    viewer.style.display = 'block';
-                }, 2000);
-            }, 1000);
+                iframe.onerror = function() {
+                    if (!hasLoaded) {
+                        clearTimeout(loadTimeout);
+                        tryAlternatePDFMethods(filename, title);
+                    }
+                };
+                
+                // Set timeout for loading
+                loadTimeout = setTimeout(() => {
+                    if (!hasLoaded) {
+                        tryAlternatePDFMethods(filename, title);
+                    }
+                }, 4000);
+            } else {
+                // Original local file handling
+                const iframe = document.createElement('iframe');
+                iframe.className = 'pdf-iframe';
+                iframe.src = `${filename}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
+                
+                let loadTimeout;
+                let hasLoaded = false;
+                
+                iframe.onload = function() {
+                    if (!hasLoaded) {
+                        hasLoaded = true;
+                        clearTimeout(loadTimeout);
+                        setTimeout(() => {
+                            placeholder.style.display = 'none';
+                            viewerContent.appendChild(iframe);
+                        }, 500);
+                    }
+                };
+                
+                iframe.onerror = function() {
+                    if (!hasLoaded) {
+                        clearTimeout(loadTimeout);
+                        tryAlternatePDFMethods(filename, title);
+                    }
+                };
+                
+                // Set timeout for loading
+                loadTimeout = setTimeout(() => {
+                    if (!hasLoaded) {
+                        tryAlternatePDFMethods(filename, title);
+                    }
+                }, 4000);
+            }
         }
-        
-        // Final fallback: Use object/embed tag
-        function showEmbeddedPDF(filename, title) {
-            const pdfContent = document.getElementById('pdfContent');
-            const placeholder = document.getElementById('pdfPlaceholder');
-            const viewer = document.getElementById('pdfViewer');
+
+        // Try alternative PDF loading methods
+        function tryAlternatePDFMethods(filename, title) {
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
             
-            viewer.style.display = 'none';
+            // Update loading message
+            placeholder.innerHTML = `
+                <div class="loading-spinner"></div>
+                <h3>Optimizing PDF Display...</h3>
+                <p>Finding the best way to display this document</p>
+            `;
+            
+            if (filename.includes('drive.google.com')) {
+                // For Google Drive, try using the direct preview URL
+                const iframe = document.createElement('iframe');
+                iframe.className = 'pdf-iframe';
+                iframe.src = filename.replace('/view?usp=sharing', '/preview');
+                
+                setTimeout(() => {
+                    iframe.onerror = function() {
+                        showPDFObject(filename, title);
+                    };
+                    
+                    placeholder.style.display = 'none';
+                    viewerContent.appendChild(iframe);
+                }, 2000);
+            } else {
+                // Method 2: Google Docs Viewer for local files
+                const iframe = document.createElement('iframe');
+                iframe.className = 'pdf-iframe';
+                iframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + '/' + filename)}&embedded=true`;
+                
+                setTimeout(() => {
+                    iframe.onerror = function() {
+                        showPDFObject(filename, title);
+                    };
+                    
+                    placeholder.style.display = 'none';
+                    viewerContent.appendChild(iframe);
+                }, 2000);
+            }
+        }
+
+        // Final fallback: PDF object/embed
+        function showPDFObject(filename, title) {
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
+            
             placeholder.style.display = 'none';
             
-            // Create embedded PDF object
-            const embedContainer = document.createElement('div');
-            embedContainer.style.width = '100%';
-            embedContainer.style.height = 'calc(100% - 60px)';
-            embedContainer.style.background = '#f0f0f0';
-            
-            embedContainer.innerHTML = `
-                <object 
-                    data="${filename}#toolbar=0&navpanes=0&scrollbar=1" 
-                    type="application/pdf" 
-                    width="100%" 
-                    height="100%">
-                    <embed 
-                        src="${filename}#toolbar=0&navpanes=0&scrollbar=1" 
+            if (filename.includes('drive.google.com')) {
+                // For Google Drive, show a direct link to the file
+                const linkContainer = document.createElement('div');
+                linkContainer.style.width = '100%';
+                linkContainer.style.height = '100%';
+                linkContainer.style.background = '#f0f0f0';
+                linkContainer.style.display = 'flex';
+                linkContainer.style.alignItems = 'center';
+                linkContainer.style.justifyContent = 'center';
+                linkContainer.style.flexDirection = 'column';
+                linkContainer.style.padding = '20px';
+                linkContainer.style.textAlign = 'center';
+                
+                linkContainer.innerHTML = `
+                    <div class="error-state">
+                        <div class="icon">📄</div>
+                        <h3>Google Drive PDF</h3>
+                        <p>This PDF is stored in Google Drive.<br>
+                        <a href="${filename}" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block; padding: 10px 20px; background: white; border-radius: 8px; border: 2px solid #3b82f6;">Open in Google Drive</a></p>
+                    </div>
+                `;
+                
+                viewerContent.appendChild(linkContainer);
+            } else {
+                // Original local file handling
+                const objectContainer = document.createElement('div');
+                objectContainer.style.width = '100%';
+                objectContainer.style.height = '100%';
+                objectContainer.style.background = '#f0f0f0';
+                
+                objectContainer.innerHTML = `
+                    <object 
+                        data="${filename}#toolbar=0&navpanes=0" 
                         type="application/pdf" 
                         width="100%" 
                         height="100%">
-                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666;">
-                            <div style="font-size: 3rem; margin-bottom: 20px;">📄</div>
-                            <h3>PDF Viewer Not Supported</h3>
-                            <p style="text-align: center; margin: 20px;">
-                                Your browser doesn't support PDF viewing.<br>
-                                The PDF "${title}" is available but cannot be displayed inline.
-                            </p>
-                        </div>
-                    </embed>
-                </object>
-            `;
-            
-            // Clear existing content and add embedded PDF
-            pdfContent.innerHTML = '';
-            pdfContent.appendChild(document.querySelector('.pdf-modal-header'));
-            pdfContent.appendChild(embedContainer);
-        }
-        
-        // Show error message when PDF can't be displayed
-        function showPDFError(title) {
-            const placeholder = document.getElementById('pdfPlaceholder');
-            const viewer = document.getElementById('pdfViewer');
-            
-            viewer.style.display = 'none';
-            placeholder.style.display = 'flex';
-            placeholder.innerHTML = `
-                <div class="icon">📄</div>
-                <h3>Unable to Display PDF</h3>
-                <p style="margin: 20px 0; text-align: center; color: #666;">
-                    "${title}" cannot be displayed in this browser.<br>
-                    Please ensure the PDF file is in the same folder as this HTML file.
-                </p>
-            `;
+                        <embed 
+                            src="${filename}#toolbar=0&navpanes=0" 
+                            type="application/pdf" 
+                            width="100%" 
+                            height="100%">
+                            <div class="error-state">
+                                <div class="icon">📄</div>
+                                <h3>PDF Display Not Supported</h3>
+                                <p>Your browser cannot display PDFs inline.<br>
+                                Click the download button to view "${title}".</p>
+                            </div>
+                        </embed>
+                    </object>
+                `;
+                
+                viewerContent.appendChild(objectContainer);
+            }
         }
 
-        // Close PDF modal
-        function closePDF() {
-            const modal = document.getElementById('pdfModal');
-            const viewer = document.getElementById('pdfViewer');
-            const pdfContent = document.getElementById('pdfContent');
+        // Load images with zoom functionality
+        function loadImage(filename, title) {
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
+            const zoomControls = document.getElementById('zoomControls');
+            
+            const imageViewer = document.createElement('div');
+            imageViewer.className = 'image-viewer';
+            
+            const img = document.createElement('img');
+            img.alt = title;
+            img.style.transform = 'scale(1)';
+            img.style.transition = 'transform 0.3s ease';
+            
+            img.onload = function() {
+                placeholder.style.display = 'none';
+                imageViewer.appendChild(img);
+                viewerContent.appendChild(imageViewer);
+                zoomControls.style.display = 'flex';
+            };
+            
+            img.onerror = function() {
+                placeholder.innerHTML = `
+                    <div class="icon">🖼️</div>
+                    <h3>Image Not Found</h3>
+                    <p>The image "${title}" could not be loaded.<br>
+                    Please ensure the file exists in the correct location.</p>
+                `;
+            };
+            
+            img.src = filename;
+        }
+
+        // Zoom functions for images
+        function zoomIn() {
+            if (currentDocument && currentDocument.type === 'image') {
+                currentZoom = Math.min(currentZoom * 1.2, 3);
+                updateImageZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentDocument && currentDocument.type === 'image') {
+                currentZoom = Math.max(currentZoom * 0.8, 0.5);
+                updateImageZoom();
+            }
+        }
+
+        function resetZoom() {
+            if (currentDocument && currentDocument.type === 'image') {
+                currentZoom = 1;
+                updateImageZoom();
+            }
+        }
+
+        function updateImageZoom() {
+            const img = document.querySelector('.image-viewer img');
+            if (img) {
+                img.style.transform = `scale(${currentZoom})`;
+            }
+        }
+
+        // Download document
+        function downloadDocument() {
+            if (currentDocument && currentDocument.filename) {
+                if (currentDocument.filename.includes('drive.google.com')) {
+                    // For Google Drive files, open in new tab
+                    window.open(currentDocument.filename, '_blank');
+                } else {
+                    // For local files, use download
+                    const link = document.createElement('a');
+                    link.href = currentDocument.filename;
+                    link.download = currentDocument.filename;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+        }
+
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            const modal = document.getElementById('documentModal');
+            
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Close document modal
+        function closeDocument() {
+            const modal = document.getElementById('documentModal');
+            const viewerContent = document.getElementById('viewerContent');
+            const placeholder = document.getElementById('viewerPlaceholder');
+            const zoomControls = document.getElementById('zoomControls');
             
             modal.style.display = 'none';
-            viewer.src = ''; // Clear the iframe source
-            
-            // Reset PDF content structure if it was modified
-            pdfContent.innerHTML = `
-                <iframe id="pdfViewer" class="pdf-viewer" style="display: none;"></iframe>
-                <div id="pdfPlaceholder" class="pdf-placeholder">
-                    <div class="loading-spinner"></div>
-                    <h3>Loading PDF...</h3>
-                    <p>Please wait while the document loads</p>
-                </div>
-            `;
-            
             document.body.style.overflow = 'auto';
+            
+            // Reset content
+            viewerContent.innerHTML = '';
+            placeholder.innerHTML = `
+                <div class="loading-spinner"></div>
+                <h3>Loading Document...</h3>
+                <p>Please wait while the document loads</p>
+            `;
+            placeholder.style.display = 'flex';
+            zoomControls.style.display = 'none';
+            
+            currentDocument = null;
+            currentZoom = 1;
+            
+            // Exit fullscreen if active
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
         }
 
-        // Close modal when clicking outside
+        // Event listeners
         window.addEventListener('click', function(event) {
-            const modal = document.getElementById('pdfModal');
+            const modal = document.getElementById('documentModal');
             if (event.target === modal) {
-                closePDF();
+                closeDocument();
             }
         });
 
-        // Escape key to close modal
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
-                closePDF();
+                closeDocument();
+            }
+            
+            // Zoom shortcuts for images
+            if (currentDocument && currentDocument.type === 'image') {
+                if (event.key === '+' || event.key === '=') {
+                    event.preventDefault();
+                    zoomIn();
+                } else if (event.key === '-') {
+                    event.preventDefault();
+                    zoomOut();
+                } else if (event.key === '0') {
+                    event.preventDefault();
+                    resetZoom();
+                }
             }
         });
 
-        // Prevent right-click context menu on PDF modal
-        document.getElementById('pdfModal').addEventListener('contextmenu', function(e) {
+        // Prevent context menu on modal
+        document.getElementById('documentModal').addEventListener('contextmenu', function(e) {
             e.preventDefault();
             return false;
+        });
+
+        // Handle orientation changes on mobile
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                if (currentDocument) {
+                    // Refresh layout after orientation change
+                    const modal = document.getElementById('documentModal');
+                    if (modal.style.display === 'block') {
+                        // Trigger a small layout update
+                        modal.style.height = '100vh';
+                    }
+                }
+            }, 100);
+        });
+
+        // Touch gestures for image zoom (basic implementation)
+        let touchStartDistance = 0;
+        let touchStartZoom = 1;
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 2 && currentDocument && currentDocument.type === 'image') {
+                e.preventDefault();
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                touchStartDistance = Math.hypot(
+                    touch1.clientX - touch2.clientX,
+                    touch1.clientY - touch2.clientY
+                );
+                touchStartZoom = currentZoom;
+            }
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 2 && currentDocument && currentDocument.type === 'image') {
+                e.preventDefault();
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const touchDistance = Math.hypot(
+                    touch1.clientX - touch2.clientX,
+                    touch1.clientY - touch2.clientY
+                );
+                
+                const scale = touchDistance / touchStartDistance;
+                currentZoom = Math.max(0.5, Math.min(3, touchStartZoom * scale));
+                updateImageZoom();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any initialization code here
+            console.log('CV Portfolio loaded successfully');
         });
     </script>
 </body>
