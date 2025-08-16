@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marwah - Professional CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="grad"><stop offset="0%" style="stop-color:rgba(255,255,255,0.1)"/><stop offset="100%" style="stop-color:rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23grad)"/><circle cx="800" cy="800" r="250" fill="url(%23grad)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-name {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-details {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-specialization {
+            font-size: 1.3rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 30px;
+            border-radius: 30px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main View - Section Grid */
+        .main-view {
+            display: block;
+            min-height: 80vh;
+            padding: 80px 40px;
+        }
+
+        .main-view.hidden {
+            display: none;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            border-color: #3b82f6;
+        }
+
+        .section-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .document-count {
+            background: #3b82f6;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        /* Document View */
+        .document-view {
+            display: none;
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+
+        .document-view.active {
+            display: block;
+        }
+
+        .document-header {
+            background: white;
+            padding: 30px 40px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #2563eb;
+        }
+
+        .document-section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .document-section-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .documents-container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .document-item {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .document-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-item-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .document-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .document-item-type {
+            color: #64748b;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* PDF Viewer Modal */
+        .pdf-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .pdf-modal-content {
+            position: relative;
+            margin: 1% auto;
+            width: 95%;
+            height: 95%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .pdf-modal-header {
+            background: #0f172a;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pdf-modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .close-pdf-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .close-pdf-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+        }
+
+        .pdf-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100% - 60px);
+            color: #64748b;
+        }
+
+        .pdf-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-section {
+                padding: 60px 30px;
+            }
+
+            .profile-name {
+                font-size: 2.2rem;
+            }
+
+            .main-view, .documents-container {
+                padding: 40px 20px;
+            }
+
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .document-header {
+                padding: 20px;
+            }
+
+            .documents-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .pdf-modal-content {
+                width: 98%;
+                height: 98%;
+                margin: 1% auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-card {
+                padding: 30px 20px;
+            }
+
+            .section-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+
+            .document-item {
+                padding: 20px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="profile-photo">
+            M
+        </div>
+        <h1 class="profile-name">Marwah</h1>
+        <p class="profile-details">Age: 25 • Location: Your City</p>
+        <div class="profile-specialization">Software Developer & UI/UX Designer</div>
+    </section>
+
+    <!-- Main Sections View -->
+    <div class="main-view" id="mainView">
+        <div class="sections-grid">
+            <div class="section-card" onclick="showSection('cv')">
+                <div class="section-icon">📄</div>
+                <h3 class="section-title">CV</h3>
+                <p class="section-description">Complete curriculum vitae and professional resume</p>
+                <span class="document-count">1 Document</span>
+            </div>
+            
+            <div class="section-card" onclick="showSection('education')">
+                <div class="section-icon">🎓</div>
+                <h3 class="section-title">Education</h3>
+                <p class="section-description">Academic qualifications and degree certificates</p>
+                <span class="document-count">1 Document</span>
+            </div>
+            
+            <div class="section-card" onclick="showSection('achievements')">
+                <div class="section-icon">🏆</div>
+                <h3 class="section-title">Achievements</h3>
+                <p class="section-description">Awards, recognitions, and certificates of excellence</p>
+                <span class="document-count">5 Documents</span>
+            </div>
+            
+            <div class="section-card" onclick="showSection('recommendations')">
+                <div class="section-icon">💼</div>
+                <h3 class="section-title">Recommendations</h3>
+                <p class="section-description">Professional reference letters and testimonials</p>
+                <span class="document-count">3 Documents</span>
+            </div>
+            
+            <div class="section-card" onclick="showSection('volunteering')">
+                <div class="section-icon">🤝</div>
+                <h3 class="section-title">Volunteering</h3>
+                <p class="section-description">Community service certificates and volunteer recognition</p>
+                <span class="document-count">2 Documents</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Section -->
+    <div class="document-view" id="cvView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Curriculum Vitae</h2>
+            <p class="document-section-subtitle">Professional resume and career summary</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openPDF('Marwah CV', 'Marwah CV.pdf')">
+                    <div class="document-item-icon">📋</div>
+                    <h4 class="document-item-title">Marwah CV</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Education Section -->
+    <div class="document-view" id="educationView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Education</h2>
+            <p class="document-section-subtitle">Academic qualifications and degree certificates</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openPDF('Award of Degree', 'Award of Degree.pdf')">
+                    <div class="document-item-icon">🎓</div>
+                    <h4 class="document-item-title">Award of Degree</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="document-view" id="achievementsView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Achievements</h2>
+            <p class="document-section-subtitle">Awards, recognitions, and certificates of excellence</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openPDF('JIWE Participation Certificate', 'Participating in JIWE.pdf')">
+                    <div class="document-item-icon">🏅</div>
+                    <h4 class="document-item-title">JIWE Participation Certificate</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Elements of AI Certificate', 'Certificate Elements Of AI.pdf')">
+                    <div class="document-item-icon">🤖</div>
+                    <h4 class="document-item-title">Elements of AI Certificate</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Dean List Certificate 1', 'Dean List Certificate 1.pdf')">
+                    <div class="document-item-icon">📜</div>
+                    <h4 class="document-item-title">Dean List Certificate 1</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Dean List Certificate 2', 'Dean List Certificate 2.pdf')">
+                    <div class="document-item-icon">📜</div>
+                    <h4 class="document-item-title">Dean List Certificate 2</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('EDC Innovation Article', 'EDC Unveils Innovative Self-Printing Machine by Azzain Ink - Multimedia University.pdf')">
+                    <div class="document-item-icon">🚀</div>
+                    <h4 class="document-item-title">EDC Innovation Article</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations Section -->
+    <div class="document-view" id="recommendationsView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Recommendations</h2>
+            <p class="document-section-subtitle">Professional reference letters and testimonials</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openPDF('Recommendation Letter 1', 'Recommendation Letter1.pdf')">
+                    <div class="document-item-icon">📝</div>
+                    <h4 class="document-item-title">Recommendation Letter 1</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Recommendation Letter 2', 'Recommendation Letter2.pdf')">
+                    <div class="document-item-icon">📝</div>
+                    <h4 class="document-item-title">Recommendation Letter 2</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Recommendation Letter 3', 'Recommendation Letter3.pdf')">
+                    <div class="document-item-icon">📝</div>
+                    <h4 class="document-item-title">Recommendation Letter 3</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volunteering Section -->
+    <div class="document-view" id="volunteeringView">
+        <div class="document-header">
+            <button class="back-button" onclick="showMainView()">
+                ← Back to Sections
+            </button>
+            <h2 class="document-section-title">Volunteering</h2>
+            <p class="document-section-subtitle">Community service certificates and volunteer recognition</p>
+        </div>
+        <div class="documents-container">
+            <div class="documents-grid">
+                <div class="document-item" onclick="openPDF('Volunteering Certificate 1', 'Volunteering Certificate 1.pdf')">
+                    <div class="document-item-icon">🤝</div>
+                    <h4 class="document-item-title">Volunteering Certificate 1</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+                
+                <div class="document-item" onclick="openPDF('Volunteering Certificate 2', 'Volunteering Certificate 2.pdf')">
+                    <div class="document-item-icon">🤝</div>
+                    <h4 class="document-item-title">Volunteering Certificate 2</h4>
+                    <p class="document-item-type">PDF Document</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF Viewer Modal -->
+    <div id="pdfModal" class="pdf-modal">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3 class="pdf-modal-title" id="pdfModalTitle">Document Title</h3>
+                <button class="close-pdf-btn" onclick="closePDF()">&times;</button>
+            </div>
+            <div id="pdfContent">
+                <iframe id="pdfViewer" class="pdf-viewer" style="display: none;"></iframe>
+                <div id="pdfPlaceholder" class="pdf-placeholder">
+                    <div class="icon">📄</div>
+                    <h3>PDF will be displayed here</h3>
+                    <p>Make sure to upload your PDF files to the same folder as this HTML file</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show specific section
+        function showSection(sectionName) {
+            // Hide main view
+            document.getElementById('mainView').classList.add('hidden');
+            
+            // Hide all document views
+            const allViews = document.querySelectorAll('.document-view');
+            allViews.forEach(view => view.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName + 'View').classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show main view (back to sections)
+        function showMainView() {
+            // Show main view
+            document.getElementById('mainView').classList.remove('hidden');
+            
+            // Hide all document views
+            const allViews = document.querySelectorAll('.document-view');
+            allViews.forEach(view => view.classList.remove('active'));
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Open PDF in modal
+        function openPDF(title, filename) {
+            const modal = document.getElementById('pdfModal');
+            const modalTitle = document.getElementById('pdfModalTitle');
+            const viewer = document.getElementById('pdfViewer');
+            const placeholder = document.getElementById('pdfPlaceholder');
+            
+            modalTitle.textContent = title;
+            modal.style.display = 'block';
+            
+            // Try different methods to display PDF
+            const pdfUrl = encodeURIComponent(filename);
+            
+            // Method 1: Try direct iframe
+            viewer.src = filename;
+            viewer.style.display = 'block';
+            placeholder.style.display = 'none';
+            
+            // Set a timeout to check if PDF loaded
+            setTimeout(() => {
+                try {
+                    // If iframe is empty or has issues, show download option
+                    if (!viewer.contentDocument && !viewer.contentWindow) {
+                        showPDFOptions(filename, title);
+                    }
+                } catch (e) {
+                    showPDFOptions(filename, title);
+                }
+            }, 2000);
+            
+            viewer.onload = function() {
+                // PDF loaded successfully
+                console.log('PDF loaded successfully');
+            };
+            
+            viewer.onerror = function() {
+                showPDFOptions(filename, title);
+            };
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Show PDF options when direct viewing fails
+        function showPDFOptions(filename, title) {
+            const viewer = document.getElementById('pdfViewer');
+            const placeholder = document.getElementById('pdfPlaceholder');
+            
+            viewer.style.display = 'none';
+            placeholder.style.display = 'flex';
+            placeholder.innerHTML = `
+                <div class="icon">📄</div>
+                <h3>PDF: ${title}</h3>
+                <p style="margin: 20px 0; text-align: center; color: #666;">
+                    Some browsers restrict local PDF viewing.<br>
+                    Click the button below to open the PDF:
+                </p>
+                <button onclick="downloadPDF('${filename}')" 
+                        style="background: #3b82f6; color: white; border: none; padding: 15px 30px; 
+                               border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px;">
+                    📥 Open PDF File
+                </button>
+                <button onclick="openPDFNewTab('${filename}')" 
+                        style="background: #059669; color: white; border: none; padding: 15px 30px; 
+                               border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px;">
+                    🌐 Open in New Tab
+                </button>
+            `;
+        }
+        
+        // Function to download/open PDF
+        function downloadPDF(filename) {
+            const link = document.createElement('a');
+            link.href = filename;
+            link.download = filename;
+            link.click();
+        }
+        
+        // Function to open PDF in new tab
+        function openPDFNewTab(filename) {
+            window.open(filename, '_blank');
+        }
+
+        // Close PDF modal
+        function closePDF() {
+            const modal = document.getElementById('pdfModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('pdfModal');
+            if (event.target === modal) {
+                closePDF();
+            }
+        });
+
+        // Escape key to close modal
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closePDF();
+            }
+        });
+    </script>
+</body>
+</html>
