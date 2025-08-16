@@ -286,12 +286,13 @@
 
         .pdf-modal-content {
             position: relative;
-            margin: 1% auto;
-            width: 95%;
-            height: 95%;
+            margin: 0;
+            width: 100%;
+            height: 100vh;
             background: white;
-            border-radius: 8px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .pdf-modal-header {
@@ -325,8 +326,9 @@
 
         .pdf-viewer {
             width: 100%;
-            height: calc(100% - 60px);
+            height: 600%;
             border: none;
+            overflow: auto;
         }
 
         .pdf-placeholder {
@@ -336,12 +338,28 @@
             justify-content: center;
             height: calc(100% - 60px);
             color: #64748b;
+            background: #f8fafc;
         }
 
         .pdf-placeholder .icon {
             font-size: 4rem;
             margin-bottom: 20px;
             opacity: 0.5;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Responsive Design */
@@ -373,9 +391,9 @@
             }
 
             .pdf-modal-content {
-                width: 98%;
-                height: 98%;
-                margin: 1% auto;
+                width: 100%;
+                height: 100%;
+                margin: 0;
             }
         }
 
@@ -608,9 +626,9 @@
             <div id="pdfContent">
                 <iframe id="pdfViewer" class="pdf-viewer" style="display: none;"></iframe>
                 <div id="pdfPlaceholder" class="pdf-placeholder">
-                    <div class="icon">📄</div>
-                    <h3>PDF will be displayed here</h3>
-                    <p>Make sure to upload your PDF files to the same folder as this HTML file</p>
+                    <div class="loading-spinner"></div>
+                    <h3>Loading PDF...</h3>
+                    <p>Please wait while the document loads</p>
                 </div>
             </div>
         </div>
@@ -646,7 +664,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Open PDF in modal
+        // Open PDF in modal - Display Only Version
         function openPDF(title, filename) {
             const modal = document.getElementById('pdfModal');
             const modalTitle = document.getElementById('pdfModalTitle');
@@ -656,82 +674,67 @@
             modalTitle.textContent = title;
             modal.style.display = 'block';
             
-            // Try different methods to display PDF
-            const pdfUrl = encodeURIComponent(filename);
+            // Show loading state
+            placeholder.style.display = 'flex';
+            viewer.style.display = 'none';
             
-            // Method 1: Try direct iframe
-            viewer.src = filename;
-            viewer.style.display = 'block';
-            placeholder.style.display = 'none';
+            // Configure PDF viewer for display only
+            const pdfUrl = filename + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH&zoom=page-fit';
             
-            // Set a timeout to check if PDF loaded
-            setTimeout(() => {
-                try {
-                    // If iframe is empty or has issues, show download option
-                    if (!viewer.contentDocument && !viewer.contentWindow) {
-                        showPDFOptions(filename, title);
-                    }
-                } catch (e) {
-                    showPDFOptions(filename, title);
-                }
-            }, 2000);
+            // Set up iframe
+            viewer.src = pdfUrl;
             
+            // Handle successful loading
             viewer.onload = function() {
-                // PDF loaded successfully
-                console.log('PDF loaded successfully');
+                try {
+                    // Check if PDF loaded successfully
+                    setTimeout(() => {
+                        placeholder.style.display = 'none';
+                        viewer.style.display = 'block';
+                    }, 1000);
+                } catch (error) {
+                    showPDFError(title);
+                }
             };
             
+            // Handle loading errors
             viewer.onerror = function() {
-                showPDFOptions(filename, title);
+                showPDFError(title);
+            };
+            
+            // Prevent context menu and selections
+            viewer.oncontextmenu = function(e) {
+                e.preventDefault();
+                return false;
             };
             
             document.body.style.overflow = 'hidden';
         }
         
-        // Show PDF options when direct viewing fails
-        function showPDFOptions(filename, title) {
-            const viewer = document.getElementById('pdfViewer');
+        // Show error message when PDF can't be displayed
+        function showPDFError(title) {
             const placeholder = document.getElementById('pdfPlaceholder');
+            const viewer = document.getElementById('pdfViewer');
             
             viewer.style.display = 'none';
             placeholder.style.display = 'flex';
             placeholder.innerHTML = `
                 <div class="icon">📄</div>
-                <h3>PDF: ${title}</h3>
+                <h3>Unable to Display PDF</h3>
                 <p style="margin: 20px 0; text-align: center; color: #666;">
-                    Some browsers restrict local PDF viewing.<br>
-                    Click the button below to open the PDF:
+                    "${title}" cannot be displayed in this browser.<br>
+                    Please ensure the PDF file is in the same folder as this HTML file.
                 </p>
-                <button onclick="downloadPDF('${filename}')" 
-                        style="background: #3b82f6; color: white; border: none; padding: 15px 30px; 
-                               border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px;">
-                    📥 Open PDF File
-                </button>
-                <button onclick="openPDFNewTab('${filename}')" 
-                        style="background: #059669; color: white; border: none; padding: 15px 30px; 
-                               border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px;">
-                    🌐 Open in New Tab
-                </button>
             `;
-        }
-        
-        // Function to download/open PDF
-        function downloadPDF(filename) {
-            const link = document.createElement('a');
-            link.href = filename;
-            link.download = filename;
-            link.click();
-        }
-        
-        // Function to open PDF in new tab
-        function openPDFNewTab(filename) {
-            window.open(filename, '_blank');
         }
 
         // Close PDF modal
         function closePDF() {
             const modal = document.getElementById('pdfModal');
+            const viewer = document.getElementById('pdfViewer');
+            
             modal.style.display = 'none';
+            viewer.src = ''; // Clear the iframe source
             document.body.style.overflow = 'auto';
         }
 
@@ -748,6 +751,12 @@
             if (event.key === 'Escape') {
                 closePDF();
             }
+        });
+
+        // Prevent right-click context menu on PDF modal
+        document.getElementById('pdfModal').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
         });
     </script>
 </body>
