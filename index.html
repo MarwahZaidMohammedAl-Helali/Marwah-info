@@ -325,10 +325,7 @@
         }
 
         .pdf-viewer {
-            width: 100%;
-            height: 600%;
-            border: none;
-            overflow: auto;
+          
         }
 
         .pdf-placeholder {
@@ -664,7 +661,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Open PDF in modal - Display Only Version
+        // Open PDF in modal - Universal Display Version
         function openPDF(title, filename) {
             const modal = document.getElementById('pdfModal');
             const modalTitle = document.getElementById('pdfModalTitle');
@@ -678,37 +675,125 @@
             placeholder.style.display = 'flex';
             viewer.style.display = 'none';
             
-            // Configure PDF viewer for display only
-            const pdfUrl = filename + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH&zoom=page-fit';
+            // Try multiple PDF display methods for better compatibility
+            const pdfUrl = filename;
             
-            // Set up iframe
-            viewer.src = pdfUrl;
+            // Method 1: Try direct iframe embedding
+            viewer.src = pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1&view=FitH';
+            
+            let loadTimeout;
+            let hasLoaded = false;
             
             // Handle successful loading
             viewer.onload = function() {
-                try {
-                    // Check if PDF loaded successfully
+                if (!hasLoaded) {
+                    hasLoaded = true;
+                    clearTimeout(loadTimeout);
                     setTimeout(() => {
                         placeholder.style.display = 'none';
                         viewer.style.display = 'block';
-                    }, 1000);
-                } catch (error) {
-                    showPDFError(title);
+                    }, 500);
                 }
             };
             
+            // Set a timeout to check if PDF loaded
+            loadTimeout = setTimeout(() => {
+                if (!hasLoaded) {
+                    // Method 2: Try with PDF.js viewer
+                    tryPDFJSViewer(filename, title);
+                }
+            }, 3000);
+            
             // Handle loading errors
             viewer.onerror = function() {
-                showPDFError(title);
+                if (!hasLoaded) {
+                    clearTimeout(loadTimeout);
+                    tryPDFJSViewer(filename, title);
+                }
             };
             
-            // Prevent context menu and selections
+            // Prevent context menu
             viewer.oncontextmenu = function(e) {
                 e.preventDefault();
                 return false;
             };
             
             document.body.style.overflow = 'hidden';
+        }
+        
+        // Try using PDF.js viewer for better mobile compatibility
+        function tryPDFJSViewer(filename, title) {
+            const viewer = document.getElementById('pdfViewer');
+            const placeholder = document.getElementById('pdfPlaceholder');
+            
+            // Try using Google Docs Viewer as fallback
+            const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + '/' + filename)}&embedded=true`;
+            
+            // Update placeholder to show we're trying alternative method
+            placeholder.innerHTML = `
+                <div class="loading-spinner"></div>
+                <h3>Loading PDF Viewer...</h3>
+                <p>Optimizing for your device...</p>
+            `;
+            
+            viewer.src = googleDocsUrl;
+            
+            setTimeout(() => {
+                // If Google Docs viewer also fails, show embedded object
+                viewer.onerror = function() {
+                    showEmbeddedPDF(filename, title);
+                };
+                
+                // Hide placeholder after attempting to load
+                setTimeout(() => {
+                    placeholder.style.display = 'none';
+                    viewer.style.display = 'block';
+                }, 2000);
+            }, 1000);
+        }
+        
+        // Final fallback: Use object/embed tag
+        function showEmbeddedPDF(filename, title) {
+            const pdfContent = document.getElementById('pdfContent');
+            const placeholder = document.getElementById('pdfPlaceholder');
+            const viewer = document.getElementById('pdfViewer');
+            
+            viewer.style.display = 'none';
+            placeholder.style.display = 'none';
+            
+            // Create embedded PDF object
+            const embedContainer = document.createElement('div');
+            embedContainer.style.width = '100%';
+            embedContainer.style.height = 'calc(100% - 60px)';
+            embedContainer.style.background = '#f0f0f0';
+            
+            embedContainer.innerHTML = `
+                <object 
+                    data="${filename}#toolbar=0&navpanes=0&scrollbar=1" 
+                    type="application/pdf" 
+                    width="100%" 
+                    height="100%">
+                    <embed 
+                        src="${filename}#toolbar=0&navpanes=0&scrollbar=1" 
+                        type="application/pdf" 
+                        width="100%" 
+                        height="100%">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">📄</div>
+                            <h3>PDF Viewer Not Supported</h3>
+                            <p style="text-align: center; margin: 20px;">
+                                Your browser doesn't support PDF viewing.<br>
+                                The PDF "${title}" is available but cannot be displayed inline.
+                            </p>
+                        </div>
+                    </embed>
+                </object>
+            `;
+            
+            // Clear existing content and add embedded PDF
+            pdfContent.innerHTML = '';
+            pdfContent.appendChild(document.querySelector('.pdf-modal-header'));
+            pdfContent.appendChild(embedContainer);
         }
         
         // Show error message when PDF can't be displayed
@@ -732,9 +817,21 @@
         function closePDF() {
             const modal = document.getElementById('pdfModal');
             const viewer = document.getElementById('pdfViewer');
+            const pdfContent = document.getElementById('pdfContent');
             
             modal.style.display = 'none';
             viewer.src = ''; // Clear the iframe source
+            
+            // Reset PDF content structure if it was modified
+            pdfContent.innerHTML = `
+                <iframe id="pdfViewer" class="pdf-viewer" style="display: none;"></iframe>
+                <div id="pdfPlaceholder" class="pdf-placeholder">
+                    <div class="loading-spinner"></div>
+                    <h3>Loading PDF...</h3>
+                    <p>Please wait while the document loads</p>
+                </div>
+            `;
+            
             document.body.style.overflow = 'auto';
         }
 
