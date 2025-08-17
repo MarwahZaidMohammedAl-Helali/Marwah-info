@@ -931,6 +931,8 @@
             .documents-grid {
                 gap: 10px;
                 padding: 0 4px;
+                grid-template-columns: 1fr !important;
+                grid-auto-flow: row;
             }
             
             .documents-grid::before {
@@ -950,6 +952,8 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
+            width: 100%;
+            min-width: 0;
         }
         
         /* Mobile-optimized document items */
