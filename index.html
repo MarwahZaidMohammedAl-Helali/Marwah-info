@@ -342,6 +342,8 @@
             gap: clamp(25px, 5vw, 35px);
             max-width: 1200px;
             margin: 0 auto;
+            align-items: stretch;
+            justify-items: stretch;
         }
         
         /* Mobile-optimized sections grid */
@@ -392,6 +394,12 @@
             box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
+            width: 100%;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         
         /* Mobile-optimized section cards */
@@ -402,6 +410,8 @@
                 border-width: 1px;
                 max-width: 100%;
                 margin: 0 auto;
+                min-height: 180px;
+                height: auto;
             }
         }
         
@@ -411,6 +421,8 @@
                 border-radius: 18px;
                 max-width: 100%;
                 margin: 0 auto;
+                min-height: 160px;
+                height: auto;
             }
         }
         
@@ -420,6 +432,8 @@
                 border-radius: 16px;
                 max-width: 100%;
                 margin: 0 auto;
+                min-height: 150px;
+                height: auto;
             }
         }
         
@@ -429,6 +443,8 @@
                 border-radius: 14px;
                 max-width: 100%;
                 margin: 0 auto;
+                min-height: 140px;
+                height: auto;
             }
         }
         
@@ -546,6 +562,35 @@
                 height: clamp(50px, 8vw, 70px);
                 margin: 0 auto 18px;
                 font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            }
+        }
+        
+        @media (max-width: 280px) {
+            .section-card {
+                padding: clamp(12px, 2.5vw, 18px) clamp(8px, 2vw, 15px);
+                border-radius: 12px;
+                max-width: 100%;
+                margin: 0 auto;
+                min-height: 130px;
+                height: auto;
+            }
+            
+            .section-icon {
+                width: clamp(45px, 7vw, 60px);
+                height: clamp(45px, 7vw, 60px);
+                margin: 0 auto 15px;
+                font-size: clamp(1.3rem, 3vw, 1.8rem);
+            }
+            
+            .section-title {
+                font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+                margin-bottom: 8px;
+            }
+            
+            .document-count {
+                font-size: clamp(0.6rem, 1.5vw, 0.7rem);
+                padding: 3px 8px;
+                border-radius: 14px;
             }
         }
         
