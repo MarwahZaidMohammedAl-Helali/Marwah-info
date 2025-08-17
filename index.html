@@ -313,16 +313,59 @@
             z-index: 10;
         }
         
+        /* Mobile-optimized main view */
+        @media (max-width: 768px) {
+            .main-view {
+                padding: clamp(40px, 8vw, 60px) clamp(15px, 4vw, 25px);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-view {
+                padding: clamp(30px, 6vw, 45px) clamp(12px, 3vw, 20px);
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .main-view {
+                padding: clamp(25px, 5vw, 35px) clamp(10px, 2.5vw, 15px);
+            }
+        }
+        
         .main-view.hidden {
             display: none;
         }
         
         .sections-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: clamp(25px, 5vw, 35px);
             max-width: 1200px;
             margin: 0 auto;
+        }
+        
+        /* Mobile-optimized sections grid */
+        @media (max-width: 768px) {
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 15px;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .sections-grid {
+                gap: 18px;
+                padding: 0 12px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .sections-grid {
+                gap: 15px;
+                padding: 0 10px;
+            }
         }
         
         .section-card {
@@ -336,6 +379,30 @@
             box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
+        }
+        
+        /* Mobile-optimized section cards */
+        @media (max-width: 768px) {
+            .section-card {
+                padding: clamp(25px, 5vw, 35px) clamp(20px, 4vw, 30px);
+                border-radius: 20px;
+                border-width: 1px;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .section-card {
+                padding: clamp(20px, 4vw, 30px) clamp(15px, 3vw, 25px);
+                border-radius: 18px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .section-card {
+                padding: clamp(18px, 3.5vw, 25px) clamp(12px, 2.5vw, 20px);
+                border-radius: 16px;
+            }
         }
         
         .section-card::before {
