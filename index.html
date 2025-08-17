@@ -1031,14 +1031,74 @@
             
             .documents-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .sections-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 15px;
             }
             
             .header-section {
                 min-height: 90vh;
+                padding: 40px 20px;
+            }
+            
+            .profile-name {
+                font-size: clamp(2.5rem, 8vw, 3.5rem);
+            }
+            
+            .profile-details {
+                font-size: clamp(1rem, 3.5vw, 1.3rem);
+            }
+            
+            .profile-specialization {
+                font-size: clamp(1rem, 3.5vw, 1.2rem);
+                padding: 12px 30px;
+            }
+            
+            .main-view {
+                padding: 40px 15px;
+            }
+            
+            .section-card {
+                padding: 25px 20px;
+                border-radius: 20px;
+            }
+            
+            .section-title {
+                font-size: clamp(1.2rem, 4vw, 1.6rem);
+            }
+            
+            .section-description {
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
+            }
+            
+            .document-header {
+                padding: 20px 15px;
+            }
+            
+            .document-section-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+            }
+            
+            .documents-container {
+                padding: 20px 15px;
+            }
+            
+            .document-item {
+                padding: 25px 20px;
+                border-radius: 18px;
+            }
+            
+            .document-item-title {
+                font-size: clamp(1.1rem, 4vw, 1.4rem);
+            }
+            
+            .back-button {
+                padding: 12px 24px;
+                font-size: clamp(0.9rem, 3vw, 1.1rem);
             }
         }
         
@@ -1054,7 +1114,78 @@
             }
             
             .section-card {
-                padding: 25px 20px;
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+            
+            .section-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .document-item {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+            
+            .document-item-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+            
+            .header-section {
+                padding: 30px 15px;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 25px;
+            }
+            
+            .main-view {
+                padding: 30px 10px;
+            }
+            
+            .sections-grid {
+                gap: 15px;
+            }
+            
+            .documents-grid {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .section-card {
+                padding: 18px 12px;
+            }
+            
+            .document-item {
+                padding: 18px 12px;
+            }
+            
+            .profile-name {
+                font-size: 2.2rem;
+            }
+            
+            .profile-details {
+                font-size: 1rem;
+            }
+            
+            .profile-specialization {
+                font-size: 0.9rem;
+                padding: 10px 25px;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            .document-section-title {
+                font-size: 1.5rem;
             }
         }
         
@@ -1067,6 +1198,104 @@
             .back-button, .modal-btn, .close-btn {
                 min-height: 48px;
                 min-width: 48px;
+            }
+            
+            /* Better touch targets for mobile */
+            .section-card, .document-item {
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(102, 126, 234, 0.1);
+                touch-action: manipulation;
+            }
+            
+            .section-icon, .document-item-icon {
+                min-height: 48px;
+                min-width: 48px;
+            }
+            
+            /* Improved mobile scrolling */
+            .documents-container, .main-view {
+                -webkit-overflow-scrolling: touch;
+                scroll-behavior: smooth;
+            }
+        }
+        
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            /* Better mobile navigation */
+            .scroll-indicator {
+                bottom: 20px;
+                font-size: 1.2rem;
+            }
+            
+            /* Improved mobile modal */
+            .modal-content {
+                border-radius: 0;
+                height: 100vh;
+            }
+            
+            .modal-header {
+                border-radius: 0;
+                padding: 15px 20px;
+            }
+            
+            /* Better mobile document viewing */
+            .pdf-iframe {
+                height: calc(100vh - 80px);
+            }
+            
+            /* Mobile-friendly zoom controls */
+            .zoom-controls {
+                bottom: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+            
+            .zoom-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* Extra small mobile devices */
+        @media (max-width: 320px) {
+            .header-section {
+                padding: 25px 10px;
+            }
+            
+            .profile-photo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+            
+            .profile-name {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+            
+            .profile-details {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+            
+            .profile-specialization {
+                font-size: 0.85rem;
+                padding: 8px 20px;
+            }
+            
+            .main-view {
+                padding: 25px 8px;
+            }
+            
+            .section-card {
+                padding: 15px 10px;
+                margin-bottom: 10px;
+            }
+            
+            .document-item {
+                padding: 15px 10px;
+                margin-bottom: 10px;
             }
         }
         
@@ -2749,7 +2978,7 @@
         </div>
         <h1 class="profile-name">Marwah</h1>
         <p class="profile-details">Age: <span id="age"></span> • Location: Malaysia, Selangor</p>
-        <div class="profile-specialization">Software Developer </div>
+        <div class="profile-specialization">Software Engineer</div>
         </div>
         <div class="scroll-indicator" onclick="document.querySelector('.main-view').scrollIntoView({behavior: 'smooth'})">
             ↓
@@ -3970,33 +4199,74 @@
             // Add touch gesture support for mobile
             let touchStartY = 0;
             let touchEndY = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
             
             document.addEventListener('touchstart', function(event) {
                 touchStartY = event.touches[0].clientY;
+                touchStartX = event.touches[0].clientX;
             });
             
             document.addEventListener('touchend', function(event) {
                 touchEndY = event.changedTouches[0].clientY;
+                touchEndX = event.changedTouches[0].clientX;
                 handleSwipe();
             });
             
             function handleSwipe() {
                 const swipeThreshold = 50;
-                const diff = touchStartY - touchEndY;
+                const diffY = touchStartY - touchEndY;
+                const diffX = touchStartX - touchEndX;
                 
-                if (Math.abs(diff) > swipeThreshold) {
-                    if (diff > 0) {
+                // Vertical swipe
+                if (Math.abs(diffY) > swipeThreshold && Math.abs(diffY) > Math.abs(diffX)) {
+                    if (diffY > 0) {
                         // Swipe up - could be used for navigation
                         console.log('Swiped up');
                     } else {
-                        // Swipe down - could be used to go back
+                        // Swipe down - go back to main view
                         const activeView = document.querySelector('.document-view.active');
                         if (activeView) {
                             showMainView();
                         }
                     }
                 }
+                
+                // Horizontal swipe for document navigation
+                if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 0) {
+                        // Swipe left - next document
+                        console.log('Swiped left');
+                    } else {
+                        // Swipe right - previous document
+                        console.log('Swiped right');
+                    }
+                }
             }
+            
+            // Mobile-specific improvements
+            function enhanceMobileExperience() {
+                // Add mobile-specific classes
+                if (window.innerWidth <= 768) {
+                    document.body.classList.add('mobile-device');
+                }
+                
+                // Improve touch targets
+                const touchElements = document.querySelectorAll('.section-card, .document-item, .back-button, .modal-btn');
+                touchElements.forEach(element => {
+                    element.style.minHeight = '44px';
+                    element.style.minWidth = '44px';
+                });
+                
+                // Better mobile scrolling
+                const scrollContainers = document.querySelectorAll('.documents-container, .main-view');
+                scrollContainers.forEach(container => {
+                    container.style.webkitOverflowScrolling = 'touch';
+                });
+            }
+            
+            // Call mobile enhancements
+            enhanceMobileExperience();
             
             // Project Gallery Functionality
             const projectGalleries = {};
